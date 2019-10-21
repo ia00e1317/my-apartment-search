@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h2>物件お問い合わせ</h2>
+  <div class="row">
+    <div class="col-md-8">
+      <p>ご要望やご質問をご記入ください。</p>
+      <p>物件番号：{{ article.bknNumber }}</p>
+      <form method="POST">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-outline-primary">送信</button>
+        <!--<a href="/toppage/{{roomtype}}/{{article.id}}" class='btn btn-outline-primary'>戻る</a>-->
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<div class="p-2 mb-2 bg-dark text-light">
+    <p class="mb-0">
+        中古マンション物件としては非常に数が少ない2DKの物件を中心に東京都近郊で紹介しています。
+    </p>
+</div>
+
+{% if user.is_authenticated %}
+{% endif %}
+
+{% if user.is_anonymous %}
+<div class="mb-2">
+    <a href="{% url 'accounts:signup' %}" class='btn btn-outline-primary'>新規登録</a>
+</div>
+{% endif %}
+
+<div class="row">
+    <div class="col-md-4 mb-2">
+        <button type="button" class="btn btn-info" style="pointer-events: none;">表示：{{message}}</button>
+        {% if roomtype == 'all' %}
+            <a href="{% url 'toppage:index' %}all" class="btn btn-outline-secondary">全件</a>
+        {% else %}
+            <a href="{% url 'toppage:index' %}all" class="btn btn-outline-primary">全件</a>
+        {% endif %}
+        {% if roomtype == '2dk' %}
+            <a href="{% url 'toppage:index' %}2dk" class="btn btn-outline-secondary">2DK</a>
+        {% else %}
+            <a href="{% url 'toppage:index' %}2dk" class="btn btn-outline-primary">2DK</a>
+        {% endif %}
+        {% if roomtype == '3dk' %}
+            <a href="{% url 'toppage:index' %}3dk" class="btn btn-outline-secondary">3DK</a>
+        {% else %}
+            <a href="{% url 'toppage:index' %}3dk" class="btn btn-outline-primary">3DK</a>
+        {% endif %}  
+    </div>
+
+    <div class="col-md-3">
+        <!-- ソート -->
+        <form action="{% url 'toppage:index' %}{{roomtype}}" method="get">
+            {{ sortForm.sort_s.label }}：
+            {{ sortForm.sort_s }}
+            <input type="submit" class="btn btn-outline-primary" value="決定">
+        </form>
+    </div>
+
+    <div class="col-md-5">
+    {% if searchForm %}
+            <form action="{% url 'toppage:index' %}{{roomtype}}" method="get">
+            <div class='form-group'>
+                {{ searchForm }}
+	            <input type="submit" class="btn btn-outline-primary" value="検索" />
+                <a href="{% url 'toppage:index' %}{{roomtype}}" class="btn btn-outline-secondary">クリア</a>
+            </div>
+	        </form>
+	{% endif %}
+    </div>
+</div>
+
+    <table class='table table-striped table-hover' style='table-layout: fixed;'>
+        <tr class='bg-info'><th>物件番号<br>築年月</th><th>価格<br>管理費</th><th>所在地<br>沿線</th><th>間取り<br>専有面積</th><th>写真<br>現況</th><th>詳細<br><span class="small text-danger">(登録会員のみ)</span></th></tr>
+        {% for article in articles %}
+            {% if forloop.counter in headerrpeat %}
+                <tr class='bg-info'><th>物件番号<br>築年月</th><th>価格<br>管理費</th><th>所在地<br>沿線</th><th>間取り<br>専有面積</th><th>写真<br>現況</th><th>詳細<br><span class="small text-danger">(登録会員のみ)</span></th></tr>
+            {% endif %}
+            {% if article.soldout == "1" %}
+            <tr style="background-color:#585858">
+            {% else %}
+            <tr>
+            {% endif %}
+                <td>{{article.bknNumber}}<br>{{article.constructionDate}}</td>
+                <td>{% if article.price %}{{article.price}}万円{% endif %}<br>{% if article.administrative %}{{article.administrative}}円{% endif %}</td>
+                <td>{{article.address1}}<br>{{article.railwayLine}}</td>
+                <td>{{article.planType}}<br>{% if article.exclusiveArea %}{{article.exclusiveArea}}㎡{% endif %}</td>
+                <td>
+                    {% if article.pictureFlag == '写真あり' %}
+                    <span class="text-danger">{{article.pictureFlag}}</span>
+                    {% else %}
+                    {{article.pictureFlag}}
+                    {% endif %}
+                    <br>{{article.status}}
+                </td>
+                <td>
+                {% if article.soldout == "1" %}
+                    <a href="/" class='btn btn btn-dark' tabindex="-1" style="pointer-events: none;">契約済</a>
+                {% elif user.is_authenticated %}
+                    <a href="/toppage/{{roomtype}}/{{article.id}}" class='btn btn-outline-primary'>詳細</a>
+                {% else %}
+                    <a href="{% url 'accounts:signup' %}" class='btn btn btn-dark'>新規登録</a>
+                    <!--<a href="/" class='btn btn btn-dark' tabindex="-1" style="pointer-events: none;">新規登録</a>-->
+                {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    {% if user.is_authenticated %}
+    {% endif %}
+
+    {% if user.is_anonymous %}
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <p>{{ message }}</p>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        {% if request.user.is_staff %}
+        <input type="submit" class="btn btn-outline-danger" value="アップロード">
+        {% endif %}
+    </form>
+    <a href='{% url "toppage:index" %}' class='btn btn-outline-primary'>一覧</a>
+
+    {% if request.user.is_staff %}
+    <a href="/toppage/photos/delete" class="btn btn-outline-danger">画像削除</a>←未完成
+    {% endif %}
+
+    <br><br>
+    <p>
+        【メモ】<br>
+        アップロード → 複数画像のアップロード可能<br>
+        ファイル名 → "＜物件番号(bknNumber)＞_01.jpg" ～ "＜物件番号(bknNumber)＞_09.jpg"<br>
+        画像削除 → 全画像の削除<br>
+    </p>
+    <br>
+    {% for img in images %}
+    <!-- 画像パスを取得できる -->
+    <!--<img src="{{ img.img.url }}" />-->
+    <ul><li>{{ img.img.url }}</li></ul>
+    {% endfor %}
+
+{% endblock %}

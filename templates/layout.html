@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
+        <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' crossorigin='anonymous'>
+        <style>
+            body {padding-top: 80px;padding-bottom: 20px;}
+            .font-small { font-size: 90%; }
+        </style>
+        <title>中古2DK専門</title>
+    </head>
+    <body>
+        <nav class='navbar navbar-expand-sm navbar-dark bg-dark fixed-top'>
+            <a class='navbar-brand' href='{% url "toppage:index" %}'>中古2DK専門</a>
+            <ul class='navbar-nav'>
+                <li class='nav-item'>
+                    <a href='{% url "toppage:index" %}' class='logout nav-link'>物件一覧</a>
+                </li>
+                <li class='nav-item'>
+                    <a href='{% url "toppage:about2dk" %}' class='logout nav-link'>2DKとは</a>
+                </li>
+
+                {% if user.is_staff %}
+                <li class='nav-item'>
+                    <a href='{% url "toppage:upload" %}' class='logout nav-link'><span class='text-danger'>csvデータ</span></a>
+                </li>
+                <li class='nav-item'>
+                    <a href='{% url "toppage:photos" %}' class='logout nav-link'><span class='text-danger'>画像データ</span></a>
+                </li>
+                {% endif %}
+
+                {% if user.is_authenticated %}
+                <li class='nav-time'>
+                    <span class='navbar-text'>　[{{ user }}] - </span>
+                </li>
+                <li class='nav-item'>
+                    <a href='{% url "logout" %}' class='logout nav-link'>ログアウト</a>
+                </li>
+                <li class='nav-item'>
+                    <a href='{% url "accounts:password_change" %}' class='logout nav-link'>パスワード変更</a>
+                </li>
+                {% else %}
+                <li class='nav-item'>
+                    <a href='{% url "login" %}' class='login nav-link'>ログイン</a>
+                </li>
+                <li class="nav-item">
+                    <a href='{% url "accounts:signup" %}' class='signup nav-link'>新規登録</a>
+                </li>
+                {% endif %}
+
+            </ul>
+        </nav>
+        <div class='container'>
+
+            {% block content %}
+            {% endblock %}
+       </div>
+    </body>
+</html>

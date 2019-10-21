@@ -1,0 +1,130 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('img').error(function() {
+            $(this).remove();
+        });
+    });
+    </script>
+
+    <h2 class='mr-3' style='float : left;'>{{ message }}</h2>
+    <a href="{% url 'toppage:index' %}{{roomtype}}" class="btn btn-outline-primary">戻る</a>
+    <a href="{% url 'toppage:contact_form' article.id %}" class="btn btn-outline-primary" target="_blank">問合せ</a>
+{% if request.user.is_staff %}
+    <a href="/toppage/{{roomtype}}/{{article.id}}/pictureup" class="btn btn-outline-danger">画像アップ済</a>
+    <a href="/toppage/{{roomtype}}/{{article.id}}/delete" class="btn btn-outline-danger">削除</a>
+    <a href="/toppage/{{roomtype}}/{{article.id}}/soldout" class="btn btn-outline-danger">契約済</a>
+{% endif %}
+
+    <table  class='table table-bordered font-small' style='table-layout: fixed;'>
+        <tr>
+            <td class="table-info">物件番号</td><td>{{article.bknNumber}}</td>
+            <td class="table-info">現況</td><td>{{article.status}}</td>
+        </tr>
+        <tr>
+            <td class="table-info">建物名</td><td>{{article.bknName}}</td>
+            <td class="table-info">物件種目</td><td>{{article.bknType}}</td>
+        </tr>
+        <tr>
+            <td class="table-info">価格</td><td>{% if article.price %}{{article.price}}万円{% endif %}</td>
+            <td class="table-info"></td><td><!--物件種別{{article.bknTrade}}--></td>
+        </tr>
+        <tr>
+            <td class="table-info">坪単価</td><td>{% if article.priceTsubo %}{{article.priceTsubo}}万円{% endif %}</td>
+            <td class="table-info">専有面積</td><td>{% if article.exclusiveArea %}{{article.exclusiveArea}}㎡{% endif %}</td>
+        </tr>
+        <tr>
+            <td class="table-info">㎡単価</td><td>{% if article.priceSquare %}{{article.priceSquare}}万円{% endif %}</td>
+            <td class="table-info">バルコニー（テラス）面積</td><td>{% if article.balArea %}{{article.balArea}}㎡{% endif %}</td>
+        </tr>
+        <tr>
+            <td class="table-info">間取タイプ</td><td>{{article.planType}}</td>
+            <td class="table-info">管理組合有無</td><td>{{article.associationFlag}}</td>
+        </tr>
+        <tr>            
+            <td class="table-info">間取りその他</td><td>{{article.planRoom}}</td>
+            <td class="table-info">管理形態</td><td>{{article.associationType}}</td>
+        </tr>
+        <tr>
+            <td class="table-info">所在地１</td><td>{{article.address1}}</td>
+            <td class="table-info">管理費</td><td>{% if article.administrative %}{{article.administrative}}円{% endif %}</td>
+        </tr>
+        <tr>
+            <td class="table-info">所在地２</td><td>{{article.address2}}</td>
+            <td class="table-info">修繕積立金</td><td>{% if article.repairReserve %}{{article.repairReserve}}円{% endif %}</td>
+        </tr>
+        <tr>
+            <td class="table-info">沿線</td><td>{{article.railwayLine}}</td>
+            <td class="table-info">建物構造</td><td>{{article.structure}}</td>
+        </tr>
+        <tr>
+            <td class="table-info">駅名</td><td>{{article.station1}}駅</td>
+            <td class="table-info">所在階/地上階層</td><td>{% if article.stairs %}{{article.stairs}}階{% endif %}</td>
+        </tr>
+        <tr>
+            <td class="table-info">徒歩（分）</td><td>{% if article.walkMin1 %}{{article.walkMin1}}分{% endif %}</td>
+            <td class="table-info">バルコニー方向</td><td>{{article.balDirection}}</td>
+        </tr>
+        <tr>
+            <td class="table-info">徒歩（m）</td><td>{% if article.walkMet1 %}{{article.walkMet1}}m{% endif %}</td>
+            <td class="table-info">築年月（西暦）</td><td>{{article.constructionDate}}</td>
+        </tr>
+        <tr>
+            <td class="table-info">その他交通手段</td><td>{{article.station2}}</td>
+            <td class="table-info">増改築年月1</td><td>{% if article.extensionDate1 != '年月' %}{{article.extensionDate1}}{% endif %}</td>
+        </tr>
+        <tr>
+            <td class="table-info">交通（分）</td><td>{% if article.walkMin2 %}{{article.walkMin2}}分{% endif %}</td>
+            <td class="table-info">増改築履歴1</td><td>{{article.extensionHistory1}}</td>
+        </tr>
+        <tr>
+            <td class="table-info">交通（m）</td><td>{% if article.walkMet2 %}{{article.walkMet2}}m{% endif %}</td>
+            <td class="table-info">増改築年月2</td><td>{% if article.extensionDate2 != '年月' %}{{article.extensionDate2}}{% endif %}</td>
+        </tr>
+        <tr>
+            <td class="table-info">周辺環境</td><td>{{article.environment}}</td>
+            <td class="table-info">増改築履歴2</td><td>{{article.extensionHistory2}}</td>
+        </tr>
+        <tr>
+            <td class="table-info">距離</td><td>{% if article.environmentMet %}{{article.environmentMet}}m{% endif %}</td>
+            <td class="table-info">増改築年月3</td><td>{% if article.extensionDate3 != '年月' %}{{article.extensionDate3}}{% endif %}</td>
+        </tr>
+        <tr>
+            <td class="table-info">時間</td><td>{% if article.environmentMin %}{{article.environmentMin}}分{% endif %}</td>
+            <td class="table-info">増改築履歴3</td><td>{{article.extensionHistory3}}</td>
+        </tr>
+    </table>
+
+    <table  class='table table-bordered' style='table-layout: fixed;'>
+        <tr>
+            <td><img src="../../../media/images/{{article.bknNumber}}_01.jpg" width='100%' alt="画像１"></td>
+            <td><img src="../../../media/images/{{article.bknNumber}}_02.jpg" width='100%' alt="画像２"></td>
+            <td><img src="../../../media/images/{{article.bknNumber}}_03.jpg" width='100%' alt="画像３"></td>
+        </tr>
+        <tr>
+            <td><img src="../../../media/images/{{article.bknNumber}}_04.jpg" width='100%' alt="画像４"></td>
+            <td><img src="../../../media/images/{{article.bknNumber}}_05.jpg" width='100%' alt="画像５"></td>
+            <td><img src="../../../media/images/{{article.bknNumber}}_06.jpg" width='100%' alt="画像６"></td>
+        </tr>
+        <tr>
+            <td><img src="../../../media/images/{{article.bknNumber}}_07.jpg" width='100%' alt="画像７"></td>
+            <td><img src="../../../media/images/{{article.bknNumber}}_08.jpg" width='100%' alt="画像８"></td>
+            <td><img src="../../../media/images/{{article.bknNumber}}_09.jpg" width='100%' alt="画像９"></td>
+            </tr>
+    </table>
+
+    <div>
+        <a href="{% url 'toppage:index' %}{{roomtype}}" class="btn btn-outline-primary">戻る</a>
+        <a href="{% url 'toppage:contact_form' article.id %}" class="btn btn-outline-primary" target="_blank">問合せ</a>
+
+    {% if request.user.is_staff %}
+        <!--request.user.is_superuser-->
+        <a href="/toppage/{{roomtype}}/{{article.id}}/pictureup" class="btn btn-outline-danger">画像アップ済</a>
+        <a href="/toppage/{{roomtype}}/{{article.id}}/delete" class="btn btn-outline-danger">削除</a>
+        <a href="/toppage/{{roomtype}}/{{article.id}}/soldout" class="btn btn-outline-danger">契約済</a>
+    {% endif %}
+
+</div>
+{% endblock %}
