@@ -42,7 +42,7 @@ EMAIL_USE_TLS = True
 # Application definition
 
 INSTALLED_APPS = [
-    'accounts.apps.AccountsConfig',	#追→apps.pyの中のクラス名
+    'accounts.apps.AccountsConfig',
     'toppage.apps.ToppageConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -84,7 +84,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'myapp.wsgi.application'
 
-LOGIN_REDIRECT_URL = '/'	#追→ログインした後お店一覧ページを表示
+LOGIN_REDIRECT_URL = '/'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -133,7 +133,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'ja-JP'     # 'en-us'	#追→
+LANGUAGE_CODE = 'ja-JP'
 #LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
