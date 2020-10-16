@@ -84,9 +84,7 @@ class ContactForm(forms.Form):
         }),
     )
 
-    #def send_email(self):
     def send_email(self,article):
-    #def send_email(self):
         subject = "お問い合わせ"
         email = self.cleaned_data['email']
 
@@ -114,18 +112,3 @@ class PhotosForm(forms.Form):
     photos_field = forms.ImageField(
         label = '',
         widget=forms.ClearableFileInput(attrs={'multiple': True}))
-
-
-
-#初期値設定
-#initial='Text',
-#initial=user.email,
-
-#メアドのデフォルト
-#http://hideharaaws.hatenablog.com/entry/2017/02/05/021111
-#https://narito.ninja/blog/detail/43/
-#
-#pkをどうやって取得する？ログインユーザーのIDを取るには？
-#user = get_object_or_404(User, pk=pk)
-#user = get_object_or_404(User, pk=1)
-#user = self.request.user
